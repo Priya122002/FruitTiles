@@ -40,6 +40,41 @@ public class Card : MonoBehaviour
         StartCoroutine(FlipToFront());
         MatchSystem.Instance.RegisterFlip(this);
     }
+    public void OnMatched()
+    {
+        Disable();
+        StartCoroutine(BurstAndRemove());
+    }
+    private IEnumerator BurstAndRemove()
+    {
+        float duration = 0.25f;
+
+        Vector3 startScale = cardSection.localScale;
+        Vector3 burstScale = startScale * 1.3f;
+
+        float t = 0f;
+
+        while (t < duration)
+        {
+            cardSection.localScale = Vector3.Lerp(startScale, burstScale, t / duration);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        t = 0f;
+
+        while (t < duration)
+        {
+            cardSection.localScale = Vector3.Lerp(burstScale, Vector3.zero, t / duration);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        cardSection.gameObject.SetActive(false);
+
+        GameManager.Instance.NotifyCardRemoved();
+    }
+
 
     private IEnumerator FlipToFront()
     {

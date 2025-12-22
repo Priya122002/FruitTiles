@@ -77,6 +77,8 @@ public class BoardManager : MonoBehaviour
             Card card = Instantiate(cardPrefab, grid.transform);
             card.Initialize(data.id, data.icon);
             spawnedCards.Add(card);
+            GameManager.Instance.SetTotalCards(spawnedCards.Count);
+
         }
 
         StartCoroutine(PreviewRoutine());

@@ -38,9 +38,10 @@ public class MatchSystem : MonoBehaviour
 
             if (a.CardId == b.CardId)
             {
-                a.Disable();
-                b.Disable();
+                a.OnMatched();
+                b.OnMatched();
             }
+
             else
             {
                 yield return new WaitForSeconds(mismatchDelay);
