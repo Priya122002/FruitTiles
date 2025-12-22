@@ -60,9 +60,19 @@ public class MenuUI : MonoBehaviour
 
     public void LoadGameDefault()
     {
-        LayoutConfig.SetLayout(DEFAULT_ROWS, DEFAULT_COLUMNS);
-        LoadGame();
+        if (SaveManager.HasSavedLayout())
+        {
+            SaveManager.LoadLastLayout(out int rows, out int columns);
+            LayoutConfig.SetLayout(rows, columns);
+        }
+        else
+        {
+            LayoutConfig.SetLayout(2, 2);
+        }
+
+        SceneManager.LoadScene(gameSceneName);
     }
+
 
     private void LoadGame()
     {

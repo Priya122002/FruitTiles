@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +20,17 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateBoard(LayoutConfig.Rows, LayoutConfig.Columns);
+        int rows = LayoutConfig.Rows;
+        int columns = LayoutConfig.Columns;
+
+        if (rows <= 0 || columns <= 0)
+        {
+            rows = 2;
+            columns = 2;
+            LayoutConfig.SetLayout(rows, columns);
+        }
+
+        GenerateBoard(rows, columns);
     }
 
     public void GenerateBoard(int rows, int columns)
@@ -77,9 +87,9 @@ public class BoardManager : MonoBehaviour
             Card card = Instantiate(cardPrefab, grid.transform);
             card.Initialize(data.id, data.icon);
             spawnedCards.Add(card);
-            GameManager.Instance.SetTotalCards(spawnedCards.Count);
-
         }
+
+        GameManager.Instance.SetTotalCards(spawnedCards.Count);
 
         StartCoroutine(PreviewRoutine());
     }

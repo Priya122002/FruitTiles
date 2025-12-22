@@ -5,77 +5,59 @@ using System.Collections;
 public class Card : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private RectTransform cardSection;   
-    [SerializeField] private Image frontBG;              
-    [SerializeField] private Image frontFruit;           
-    [SerializeField] private Image backImage;            
-    [SerializeField] private Button cardButton;          
+    [SerializeField] private RectTransform cardSection;
+    [SerializeField] private Image frontBG;
+    [SerializeField] private Image frontFruit;
+    [SerializeField] private Image backImage;
+    [SerializeField] private Button cardButton;
 
     [Header("Flip Settings")]
     [SerializeField] private float flipDuration = 0.25f;
 
-    private int cardId;
     private bool isFaceUp;
     private bool isFlipping;
 
-    public int CardId => cardId;
+    // 🔹 Expose sprite for matching
+    public Sprite FruitSprite => frontFruit.sprite;
 
+    // -------------------------
+    // INITIALIZE (RESET STATE)
+    // -------------------------
     public void Initialize(int id, Sprite fruitSprite)
     {
-        cardId = id;
         frontFruit.sprite = fruitSprite;
+
+        cardSection.gameObject.SetActive(true);
+        cardSection.localScale = Vector3.one;
+        cardSection.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
+        frontBG.enabled = true;
+        frontFruit.enabled = true;
+        backImage.enabled = false;
+
+        isFaceUp = true;
+        isFlipping = false;
 
         cardButton.onClick.RemoveAllListeners();
         cardButton.onClick.AddListener(OnClick);
 
-        ShowFrontImmediate();   
-        SetInteractable(false);
+        SetInteractable(false); // preview controls enabling
     }
 
+    // -------------------------
+    // INPUT
+    // -------------------------
     private void OnClick()
     {
         if (isFlipping || isFaceUp)
             return;
 
         StartCoroutine(FlipToFront());
-        MatchSystem.Instance.RegisterFlip(this);
-    }
-    public void OnMatched()
-    {
-        Disable();
-        StartCoroutine(BurstAndRemove());
-    }
-    private IEnumerator BurstAndRemove()
-    {
-        float duration = 0.25f;
-
-        Vector3 startScale = cardSection.localScale;
-        Vector3 burstScale = startScale * 1.3f;
-
-        float t = 0f;
-
-        while (t < duration)
-        {
-            cardSection.localScale = Vector3.Lerp(startScale, burstScale, t / duration);
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        t = 0f;
-
-        while (t < duration)
-        {
-            cardSection.localScale = Vector3.Lerp(burstScale, Vector3.zero, t / duration);
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        cardSection.gameObject.SetActive(false);
-
-        GameManager.Instance.NotifyCardRemoved();
     }
 
-
+    // -------------------------
+    // FLIP TO FRONT
+    // -------------------------
     private IEnumerator FlipToFront()
     {
         isFlipping = true;
@@ -86,8 +68,14 @@ public class Card : MonoBehaviour
         isFaceUp = true;
         isFlipping = false;
         SetInteractable(true);
+
+        // ✅ Register AFTER flip completes
+        MatchSystem.Instance.RegisterFlip(this);
     }
 
+    // -------------------------
+    // FLIP TO BACK (MISMATCH)
+    // -------------------------
     public IEnumerator FlipToBack()
     {
         isFlipping = true;
@@ -100,6 +88,9 @@ public class Card : MonoBehaviour
         SetInteractable(true);
     }
 
+    // -------------------------
+    // ROTATION CORE
+    // -------------------------
     private IEnumerator Rotate(float from, float to, bool showFront)
     {
         float t = 0f;
@@ -126,24 +117,63 @@ public class Card : MonoBehaviour
         backImage.enabled = !showFront;
     }
 
-    public void ShowFrontImmediate()
+    // -------------------------
+    // MATCHED → BURST
+    // -------------------------
+    public void OnMatched()
     {
-        cardSection.localRotation = Quaternion.Euler(0f, 180f, 0f);
-        frontBG.enabled = true;
-        frontFruit.enabled = true;
-        backImage.enabled = false;
-        isFaceUp = true;
+        Disable();
+        StartCoroutine(BurstAndHide());
     }
 
+    private IEnumerator BurstAndHide()
+    {
+        float duration = 0.25f;
+
+        Vector3 startScale = cardSection.localScale;
+        Vector3 burstScale = startScale * 1.3f;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            cardSection.localScale = Vector3.Lerp(startScale, burstScale, t / duration);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        t = 0f;
+        while (t < duration)
+        {
+            cardSection.localScale = Vector3.Lerp(burstScale, Vector3.zero, t / duration);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        // IMPORTANT: hide visual only (keep grid slot)
+        cardSection.gameObject.SetActive(false);
+
+        GameManager.Instance.NotifyCardRemoved();
+    }
+
+    // -------------------------
+    // PREVIEW RESET
+    // -------------------------
     public void ShowBackImmediate()
     {
+        cardSection.gameObject.SetActive(true);
+        cardSection.localScale = Vector3.one;
         cardSection.localRotation = Quaternion.Euler(0f, 0f, 0f);
+
         frontBG.enabled = false;
         frontFruit.enabled = false;
         backImage.enabled = true;
+
         isFaceUp = false;
     }
 
+    // -------------------------
+    // UTIL
+    // -------------------------
     public void Disable()
     {
         SetInteractable(false);
@@ -152,5 +182,10 @@ public class Card : MonoBehaviour
     public void SetInteractable(bool value)
     {
         cardButton.interactable = value;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

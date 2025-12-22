@@ -627,7 +627,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1745551020}
         m_TargetAssemblyTypeName: MenuUI, Assembly-CSharp
-        m_MethodName: LoadGame
+        m_MethodName: LoadGameDefault
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -49,9 +49,10 @@ public class GameStatsManager : MonoBehaviour
     private void UpdateUI()
     {
         if (matchesText != null)
-            matchesText.text = $"Matches\n{matches}";
+            matchesText.text = $"Matches: {matches}";
 
         if (turnsText != null)
-            turnsText.text = $"Turns\n{turns}";
+            turnsText.text = $"Turns: {turns}";
+
     }
 }

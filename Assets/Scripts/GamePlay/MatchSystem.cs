@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,12 @@ public class MatchSystem : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
@@ -36,20 +42,22 @@ public class MatchSystem : MonoBehaviour
             Card a = flipped[0];
             Card b = flipped[1];
 
+            // 🔹 One turn
             GameStatsManager.Instance.AddTurn();
 
-            if (a.CardId == b.CardId)
+            // ✅ MATCH BY SPRITE (FIX)
+            if (a.FruitSprite == b.FruitSprite)
             {
                 a.OnMatched();
                 b.OnMatched();
 
                 GameStatsManager.Instance.AddMatch();
-
                 ScoreManager.Instance.AddMatchScore();
             }
             else
             {
                 yield return new WaitForSeconds(mismatchDelay);
+
                 yield return a.FlipToBack();
                 yield return b.FlipToBack();
             }
@@ -60,5 +68,4 @@ public class MatchSystem : MonoBehaviour
 
         isComparing = false;
     }
-
 }
