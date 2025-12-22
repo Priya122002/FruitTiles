@@ -36,12 +36,17 @@ public class MatchSystem : MonoBehaviour
             Card a = flipped[0];
             Card b = flipped[1];
 
+            GameStatsManager.Instance.AddTurn();
+
             if (a.CardId == b.CardId)
             {
                 a.OnMatched();
                 b.OnMatched();
-            }
 
+                GameStatsManager.Instance.AddMatch();
+
+                ScoreManager.Instance.AddMatchScore();
+            }
             else
             {
                 yield return new WaitForSeconds(mismatchDelay);
@@ -55,4 +60,5 @@ public class MatchSystem : MonoBehaviour
 
         isComparing = false;
     }
+
 }

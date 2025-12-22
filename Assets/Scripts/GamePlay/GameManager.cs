@@ -1,5 +1,5 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,10 +7,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
 
     private int totalCards;
     private int removedCards;
-    [SerializeField] private string menuSceneName = "Menu";
+
     private void Awake()
     {
         if (Instance != null)
@@ -41,10 +42,11 @@ public class GameManager : MonoBehaviour
 
     private void ShowGameOver()
     {
+        int finalScore = ScoreManager.Instance.GetScore();
+
+        if (finalScoreText != null)
+            finalScoreText.text = $"Score : {finalScore}";
+
         gameOverPanel.SetActive(true);
-    }
-    public void OnBackButtonClicked()
-    {
-        SceneManager.LoadScene(menuSceneName);
     }
 }

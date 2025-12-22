@@ -10,6 +10,9 @@ public class MenuUI : MonoBehaviour
     [Header("Scene")]
     [SerializeField] private string gameSceneName = "Game";
 
+    private const int DEFAULT_ROWS = 2;
+    private const int DEFAULT_COLUMNS = 2;
+
     private void Awake()
     {
         ShowMenu();
@@ -36,6 +39,7 @@ public class MenuUI : MonoBehaviour
         menuPanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
+
     public void StartEasy()
     {
         LayoutConfig.SetLayout(2, 2);
@@ -54,7 +58,13 @@ public class MenuUI : MonoBehaviour
         LoadGame();
     }
 
-    public void LoadGame()
+    public void LoadGameDefault()
+    {
+        LayoutConfig.SetLayout(DEFAULT_ROWS, DEFAULT_COLUMNS);
+        LoadGame();
+    }
+
+    private void LoadGame()
     {
         SceneManager.LoadScene(gameSceneName);
     }
