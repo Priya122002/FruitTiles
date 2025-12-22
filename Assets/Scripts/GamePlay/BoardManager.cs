@@ -1,16 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GridLayoutGroup grid;
-    [SerializeField] private Card cardPrefab;
     [SerializeField] private RectTransform boardRect;
+    [SerializeField] private Card cardPrefab;
 
     [Header("Layout")]
     [SerializeField] private float spacing = 10f;
+
+    [Header("Card Sprites")]
+    [SerializeField] private List<Sprite> cardIcons;
+
+    private readonly List<Card> spawnedCards = new List<Card>();
 
     private void Start()
     {
@@ -22,11 +28,7 @@ public class BoardManager : MonoBehaviour
         int totalCards = rows * columns;
 
         if (totalCards % 2 != 0)
-        {
-            Debug.LogWarning("Odd card count detected. Adjusting layout.");
-            columns += 1;
-            totalCards = rows * columns;
-        }
+            columns++;
 
         ConfigureGrid(rows, columns);
         SpawnCards(rows, columns);
@@ -37,43 +39,66 @@ public class BoardManager : MonoBehaviour
         float width = boardRect.rect.width;
         float height = boardRect.rect.height;
 
-        float cellWidth = (width - (columns - 1) * spacing) / columns;
-        float cellHeight = (height - (rows - 1) * spacing) / rows;
-
-        float cellSize = Mathf.Min(cellWidth, cellHeight);
+        float cellW = (width - (columns - 1) * spacing) / columns;
+        float cellH = (height - (rows - 1) * spacing) / rows;
+        float size = Mathf.Min(cellW, cellH);
 
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         grid.constraintCount = columns;
-        grid.cellSize = new Vector2(cellSize, cellSize);
+        grid.cellSize = new Vector2(size, size);
         grid.spacing = Vector2.one * spacing;
     }
 
     private void SpawnCards(int rows, int columns)
     {
+        spawnedCards.Clear();
+
         int pairCount = (rows * columns) / 2;
-        List<int> ids = new List<int>();
+        List<CardData> dataList = new List<CardData>();
 
         for (int i = 0; i < pairCount; i++)
         {
-            ids.Add(i);
-            ids.Add(i);
+            Sprite icon = cardIcons[i % cardIcons.Count];
+
+            CardData data = new CardData
+            {
+                id = i,
+                icon = icon
+            };
+
+            dataList.Add(data);
+            dataList.Add(data);
         }
 
-        Shuffle(ids);
+        Shuffle(dataList);
 
-        foreach (int id in ids)
+        foreach (CardData data in dataList)
         {
             Card card = Instantiate(cardPrefab, grid.transform);
-            card.Initialize(id);
+            card.Initialize(data.id, data.icon);
+            spawnedCards.Add(card);
+        }
+
+        StartCoroutine(PreviewRoutine());
+    }
+
+    private IEnumerator PreviewRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+
+        foreach (Card card in spawnedCards)
+        {
+            card.ShowBackImmediate();
+            card.SetInteractable(true);
         }
     }
 
-    private void Shuffle(List<int> list)
+    private void Shuffle<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
-            int randomIndex = Random.Range(i, list.Count);
-            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
+            int r = Random.Range(i, list.Count);
+            (list[i], list[r]) = (list[r], list[i]);
         }
     }
 }

@@ -153,7 +153,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -100, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &300050830
 GameObject:
@@ -382,9 +382,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardManager
   grid: {fileID: 300050832}
-  cardPrefab: {fileID: 4496124216766434234, guid: f40a52dde05d64f46aefbf6446cdca6e, type: 3}
   boardRect: {fileID: 300050831}
+  cardPrefab: {fileID: 4496124216766434234, guid: f40a52dde05d64f46aefbf6446cdca6e, type: 3}
   spacing: 10
+  cardIcons:
+  - {fileID: 21300000, guid: b4efd26fd1a5bf247a9f468d7f0d408b, type: 3}
+  - {fileID: 21300000, guid: 324a2a1998a2e64448760a15bee490d0, type: 3}
+  - {fileID: 21300000, guid: a0dccb4d5a051b145bd51e0385b47c19, type: 3}
+  - {fileID: 21300000, guid: f49494d86aca1984c8101fbeff06341b, type: 3}
+  - {fileID: 21300000, guid: 1f46308fab377bf47a09f7f885ac4b78, type: 3}
+  - {fileID: 21300000, guid: 02b4b7e3cff22aa408db099b3babf5f8, type: 3}
+  - {fileID: 21300000, guid: dc48126730cf837429bbfaef3a1ab14d, type: 3}
+  - {fileID: 21300000, guid: e560ada71fee1ac48969af9a64a32954, type: 3}
+  - {fileID: 21300000, guid: e25130ccfa0d4ae4f8bf80f719819550, type: 3}
+  - {fileID: 21300000, guid: 050d9bb622a46974d8af76885a8ce957, type: 3}
 --- !u!4 &536981768
 Transform:
   m_ObjectHideFlags: 0
