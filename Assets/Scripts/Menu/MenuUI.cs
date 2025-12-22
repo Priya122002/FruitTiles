@@ -21,11 +21,13 @@ public class MenuUI : MonoBehaviour
     public void OnSettingsButtonClicked()
     {
         ShowSettings();
+        SoundManager.Instance.Play("click");
     }
 
     public void OnBackButtonClicked()
     {
         ShowMenu();
+        SoundManager.Instance.Play("click");
     }
 
     private void ShowMenu()
@@ -60,6 +62,7 @@ public class MenuUI : MonoBehaviour
 
     public void LoadGameDefault()
     {
+        SoundManager.Instance.Play("click");
         if (SaveManager.HasSavedLayout())
         {
             SaveManager.LoadLastLayout(out int rows, out int columns);
@@ -76,6 +79,7 @@ public class MenuUI : MonoBehaviour
 
     private void LoadGame()
     {
+        SoundManager.Instance.Play("click");
         SceneManager.LoadScene(gameSceneName);
     }
 }

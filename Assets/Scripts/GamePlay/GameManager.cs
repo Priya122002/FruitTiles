@@ -54,18 +54,23 @@ public class GameManager : MonoBehaviour
 
         if (finalScoreText != null)
             finalScoreText.text = $"Score : {finalScore}";
+        SoundManager.Instance.Play("game_over");
 
         gameOverPanel.SetActive(true);
     }
 
     public void RestartGame()
     {
+        SoundManager.Instance.Play("click");
+
         SceneManager.LoadScene(gameSceneName);
+
     }
 
   
     public void GoToMenu()
     {
+        SoundManager.Instance.Play("click");
         SceneManager.LoadScene(menuSceneName);
     }
 }

@@ -42,10 +42,8 @@ public class MatchSystem : MonoBehaviour
             Card a = flipped[0];
             Card b = flipped[1];
 
-            // 🔹 One turn
             GameStatsManager.Instance.AddTurn();
 
-            // ✅ MATCH BY SPRITE (FIX)
             if (a.FruitSprite == b.FruitSprite)
             {
                 a.OnMatched();
@@ -53,9 +51,11 @@ public class MatchSystem : MonoBehaviour
 
                 GameStatsManager.Instance.AddMatch();
                 ScoreManager.Instance.AddMatchScore();
+                SoundManager.Instance.Play("correct");
             }
             else
             {
+                SoundManager.Instance.Play("wrong");
                 yield return new WaitForSeconds(mismatchDelay);
 
                 yield return a.FlipToBack();

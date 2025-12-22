@@ -17,12 +17,8 @@ public class Card : MonoBehaviour
     private bool isFaceUp;
     private bool isFlipping;
 
-    // 🔹 Expose sprite for matching
     public Sprite FruitSprite => frontFruit.sprite;
 
-    // -------------------------
-    // INITIALIZE (RESET STATE)
-    // -------------------------
     public void Initialize(int id, Sprite fruitSprite)
     {
         frontFruit.sprite = fruitSprite;
@@ -41,12 +37,9 @@ public class Card : MonoBehaviour
         cardButton.onClick.RemoveAllListeners();
         cardButton.onClick.AddListener(OnClick);
 
-        SetInteractable(false); // preview controls enabling
+        SetInteractable(false); 
     }
 
-    // -------------------------
-    // INPUT
-    // -------------------------
     private void OnClick()
     {
         if (isFlipping || isFaceUp)
@@ -55,27 +48,20 @@ public class Card : MonoBehaviour
         StartCoroutine(FlipToFront());
     }
 
-    // -------------------------
-    // FLIP TO FRONT
-    // -------------------------
     private IEnumerator FlipToFront()
     {
         isFlipping = true;
         SetInteractable(false);
-
+        SoundManager.Instance.Play("click");
         yield return Rotate(0f, 180f, true);
 
         isFaceUp = true;
         isFlipping = false;
         SetInteractable(true);
 
-        // ✅ Register AFTER flip completes
         MatchSystem.Instance.RegisterFlip(this);
     }
 
-    // -------------------------
-    // FLIP TO BACK (MISMATCH)
-    // -------------------------
     public IEnumerator FlipToBack()
     {
         isFlipping = true;
@@ -88,9 +74,6 @@ public class Card : MonoBehaviour
         SetInteractable(true);
     }
 
-    // -------------------------
-    // ROTATION CORE
-    // -------------------------
     private IEnumerator Rotate(float from, float to, bool showFront)
     {
         float t = 0f;
@@ -117,9 +100,6 @@ public class Card : MonoBehaviour
         backImage.enabled = !showFront;
     }
 
-    // -------------------------
-    // MATCHED → BURST
-    // -------------------------
     public void OnMatched()
     {
         Disable();
@@ -149,15 +129,12 @@ public class Card : MonoBehaviour
             yield return null;
         }
 
-        // IMPORTANT: hide visual only (keep grid slot)
         cardSection.gameObject.SetActive(false);
 
         GameManager.Instance.NotifyCardRemoved();
     }
 
-    // -------------------------
-    // PREVIEW RESET
-    // -------------------------
+   
     public void ShowBackImmediate()
     {
         cardSection.gameObject.SetActive(true);
@@ -171,9 +148,6 @@ public class Card : MonoBehaviour
         isFaceUp = false;
     }
 
-    // -------------------------
-    // UTIL
-    // -------------------------
     public void Disable()
     {
         SetInteractable(false);
