@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class BoardManager : MonoBehaviour
 
     [Header("Card Sprites")]
     [SerializeField] private List<Sprite> cardIcons;
+
+    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private float countdownScaleFrom = 1.5f;
+    [SerializeField] private float countdownAnimDuration = 0.4f;
+
 
     private readonly List<Card> spawnedCards = new List<Card>();
     private void Awake()
@@ -174,13 +180,49 @@ public class BoardManager : MonoBehaviour
 
     private IEnumerator PreviewRoutine()
     {
-        yield return new WaitForSeconds(2f);
+        foreach (Card card in spawnedCards)
+            card.SetInteractable(false);
+
+        countdownText.gameObject.SetActive(true);
+
+        for (int i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            SoundManager.Instance.Play("time_tick");
+            yield return AnimateCountdown();
+        }
+
+        countdownText.gameObject.SetActive(false);
 
         foreach (Card card in spawnedCards)
-        {
             card.ShowBackImmediate();
+
+        foreach (Card card in spawnedCards)
             card.SetInteractable(true);
+    }
+    private IEnumerator AnimateCountdown()
+    {
+        float t = 0f;
+
+        Vector3 startScale = Vector3.one * countdownScaleFrom;
+        Vector3 endScale = Vector3.one;
+
+        countdownText.transform.localScale = startScale;
+
+        while (t < countdownAnimDuration)
+        {
+            t += Time.deltaTime;
+            float lerp = t / countdownAnimDuration;
+
+            lerp = Mathf.SmoothStep(0f, 1f, lerp);
+
+            countdownText.transform.localScale = Vector3.Lerp(startScale, endScale, lerp);
+            yield return null;
         }
+
+        countdownText.transform.localScale = endScale;
+
+        yield return new WaitForSeconds(0.6f);
     }
 
     private void Shuffle<T>(List<T> list)
