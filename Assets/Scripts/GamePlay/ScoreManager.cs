@@ -41,6 +41,11 @@ public class ScoreManager : MonoBehaviour
     {
         return currentScore;
     }
+    public void SetScore(int value)
+    {
+        currentScore = value;
+        UpdateUI();
+    }
 
     private void UpdateUI()
     {

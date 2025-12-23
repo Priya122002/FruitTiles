@@ -55,4 +55,11 @@ public class GameStatsManager : MonoBehaviour
             turnsText.text = $"Turns: {turns}";
 
     }
+    public void SetStats(int turnsValue, int matchesValue)
+    {
+        turns = turnsValue;
+        matches = matchesValue;
+        UpdateUI();
+    }
+
 }

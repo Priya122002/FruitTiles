@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         if (finalScoreText != null)
             finalScoreText.text = $"Score : {finalScore}";
         SoundManager.Instance.Play("game_over");
+        SaveManager.ClearGame();
 
         gameOverPanel.SetActive(true);
     }

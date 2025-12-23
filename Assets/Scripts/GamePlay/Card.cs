@@ -16,11 +16,15 @@ public class Card : MonoBehaviour
 
     private bool isFaceUp;
     private bool isFlipping;
+    public int CardId { get; private set; }
+    public bool IsRemoved { get; private set; }
 
     public Sprite FruitSprite => frontFruit.sprite;
 
     public void Initialize(int id, Sprite fruitSprite)
     {
+        CardId = id;
+        IsRemoved = false;
         frontFruit.sprite = fruitSprite;
 
         cardSection.gameObject.SetActive(true);
@@ -102,6 +106,7 @@ public class Card : MonoBehaviour
 
     public void OnMatched()
     {
+        IsRemoved = true;
         Disable();
         StartCoroutine(BurstAndHide());
     }
@@ -157,6 +162,13 @@ public class Card : MonoBehaviour
     {
         cardButton.interactable = value;
     }
+    public void RestoreAsMatched()
+    {
+        IsRemoved = true;
+        cardSection.gameObject.SetActive(false);
+        SetInteractable(false);
+    }
+
 
     private void OnDisable()
     {

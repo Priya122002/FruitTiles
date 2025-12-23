@@ -32,6 +32,10 @@ public class MatchSystem : MonoBehaviour
         if (!isComparing && flipped.Count >= 2)
             StartCoroutine(CompareRoutine());
     }
+    private void SaveCurrentGame()
+    {
+        BoardManager.Instance.SaveBoardState();
+    }
 
     private IEnumerator CompareRoutine()
     {
@@ -62,10 +66,13 @@ public class MatchSystem : MonoBehaviour
                 yield return b.FlipToBack();
             }
 
+            SaveCurrentGame();  
+
             flipped.RemoveRange(0, 2);
             yield return null;
         }
 
         isComparing = false;
     }
+
 }
