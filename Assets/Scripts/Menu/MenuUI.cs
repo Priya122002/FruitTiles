@@ -5,7 +5,7 @@ public class MenuUI : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField] private GameObject menuPanel;
-    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject levelPanel;
 
     [Header("Scene")]
     [SerializeField] private string gameSceneName = "Game";
@@ -33,13 +33,13 @@ public class MenuUI : MonoBehaviour
     private void ShowMenu()
     {
         menuPanel.SetActive(true);
-        settingsPanel.SetActive(false);
+        levelPanel.SetActive(false);
     }
 
     private void ShowSettings()
     {
         menuPanel.SetActive(false);
-        settingsPanel.SetActive(true);
+        levelPanel.SetActive(true);
     }
 
     public void StartEasy()
@@ -59,23 +59,6 @@ public class MenuUI : MonoBehaviour
         LayoutConfig.SetLayout(5, 6);
         LoadGame();
     }
-
-    public void LoadGameDefault()
-    {
-        SoundManager.Instance.Play("click");
-        if (SaveManager.HasSavedLayout())
-        {
-            SaveManager.LoadLastLayout(out int rows, out int columns);
-            LayoutConfig.SetLayout(rows, columns);
-        }
-        else
-        {
-            LayoutConfig.SetLayout(2, 2);
-        }
-
-        SceneManager.LoadScene(gameSceneName);
-    }
-
 
     private void LoadGame()
     {

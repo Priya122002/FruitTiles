@@ -1,0 +1,23 @@
+# ninja log v5
+2	2823	7881632265663263	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	81f4d49996280477
+78	621	7881632243663782	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	44870ddf152272d
+67	2643	7881632263866890	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	d7e94674378a6e7c
+2823	2952	7881632267004731	C:/Users/vel/Documents/PriyaProjects/FruitTiles/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3b39553d/obj/arm64-v8a/libgame.so	d01feedb0846a3ad
+19	2321	7881632260637535	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	9d4ad156f0103f38
+623	851	7881632245832541	C:/Users/vel/Documents/PriyaProjects/FruitTiles/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3b39553d/obj/arm64-v8a/libswappywrapper.so	a156f569bdd99b1
+28	2272	7881632260125283	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	e782413da138890c
+38	2282	7881632260170521	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	dff4d162320fad32
+9	2425	7881632261687309	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3828114d83c02278
+57	2337	7881632260793098	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a9c470c71e360b9f
+47	2682	7881632264234293	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	82a85e3a68cede19
+91	508	7882026945266389	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	44870ddf152272d
+508	727	7882026947326862	C:/Users/vel/Documents/PriyaProjects/FruitTiles/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3b39553d/obj/arm64-v8a/libswappywrapper.so	a156f569bdd99b1
+71	1914	7882026959287282	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	e782413da138890c
+24	1917	7882026959292349	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	dff4d162320fad32
+39	1966	7882026959806849	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	9d4ad156f0103f38
+47	1971	7882026959862448	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a9c470c71e360b9f
+31	2042	7882026960591694	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3828114d83c02278
+61	2247	7882026962625257	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	82a85e3a68cede19
+16	2361	7882026963783992	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	81f4d49996280477
+81	2438	7882026964541455	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	d7e94674378a6e7c
+2438	2568	7882026965776005	C:/Users/vel/Documents/PriyaProjects/FruitTiles/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3b39553d/obj/arm64-v8a/libgame.so	d01feedb0846a3ad
